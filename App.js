@@ -28,7 +28,7 @@ import GameInfo from './GameInfo';
 import DPad from './components/DPad';
 import GameTitle from './GameTitle';
 
-import {PLAYER, END} from './images';
+import {PLAYER, END, BTN_DOWN, BTN_UP, BTN_LEFT, BTN_RIGHT} from './images';
 
 const maze = new MazeHelper();
 
@@ -124,7 +124,7 @@ class App extends Component {
     bottomIndex: maze.cols,
   };
 
-  onPressLeft() {
+  onPressLeft = () => {
     if (this.state.cell.leftNeighbour) {
       this.setState({
         cell: this.state.cell.leftNeighbour,
@@ -132,7 +132,7 @@ class App extends Component {
     }
   }
 
-  onPressRight() {
+  onPressRight = () => {
     if (this.state.cell.rightNeighbour) {
       this.setState({
         cell: this.state.cell.rightNeighbour,
@@ -140,7 +140,7 @@ class App extends Component {
     }
   }
 
-  onPressTop() {
+  onPressTop = () => {
     if (this.state.cell.topNeighbour) {
       this.setState({
         cell: this.state.cell.topNeighbour,
@@ -148,7 +148,7 @@ class App extends Component {
     }
   }
 
-  onPressBottom() {
+  onPressBottom = () => {
     if (this.state.cell.bottomNeighbour) {
       this.setState({
         cell: this.state.cell.bottomNeighbour,
@@ -162,16 +162,21 @@ class App extends Component {
     }
     return (
       <View style={styles.body}>
+        <GameInfo />
         <Svg height={maze.deviceHeight} width={maze.deviceWidth}>
-          <GameInfo />
           {maze.cells.map(cell => this.renderCell(cell))}
           {this.renderAgent(this.state ? this.state.cell : maze.cells[0])}
           {this.renderTarget(maze.target)}
-          <View style={styles.bottomBar}>
-            <GameTitle />
-            <DPad />
-          </View>
         </Svg>
+        <View style={styles.bottomBar} width={maze.deviceWidth}>
+          <GameTitle />
+          <DPad
+            onPressLeft={this.onPressLeft}
+            onPressRight={this.onPressRight}
+            onPressTop={this.onPressTop}
+            onPressBottom={this.onPressBottom}
+          />
+        </View>
       </View>
     );
   }
@@ -192,9 +197,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   bottomBar: {
-    top: maze.deviceHeight / 1.75,
+    position: 'absolute',
+    bottom: 100,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-around',
   },
   body: {

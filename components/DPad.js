@@ -11,24 +11,44 @@ import {
 import {BTN_DOWN, BTN_UP, BTN_LEFT, BTN_RIGHT} from '../images';
 
 export default class DPad extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  onPressLeft = () => {
+    this.props.onPressLeft?.();
+  };
+
+  onPressRight = () => {
+    this.props.onPressRight?.();
+  };
+
+  onPressTop = () => {
+    this.props.onPressTop?.();
+  };
+
+  onPressBottom = () => {
+    this.props.onPressBottom?.();
+  };
+
   render() {
     return (
       <View style={{alignItems: 'center'}}>
-        <View>
+        <TouchableOpacity onPress={this.onPressTop}>
           <Image source={BTN_UP} style={{width: 48, height: 24}} />
-        </View>
+        </TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
-          <View>
+          <TouchableOpacity onPress={this.onPressLeft}>
             <Image source={BTN_LEFT} style={{width: 24, height: 48}} />
-          </View>
+          </TouchableOpacity>
           <View style={{width: 48, height: 24}} />
-          <View>
+          <TouchableOpacity onPress={this.onPressRight}>
             <Image source={BTN_RIGHT} style={{width: 24, height: 48}} />
-          </View>
+          </TouchableOpacity>
         </View>
-        <View>
+        <TouchableOpacity onPress={this.onPressBottom}>
           <Image source={BTN_DOWN} style={{width: 48, height: 24}} />
-        </View>
+        </TouchableOpacity>
       </View>
     );
   }

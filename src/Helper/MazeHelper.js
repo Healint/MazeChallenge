@@ -70,7 +70,7 @@ export default class MazeHelper {
         }
         this.cells[count].size = this.cellSize;
         this.cells[count].hMargin = this.hMargin;
-        this.cells[count].vMargin = this.vMargin / 2;
+        this.cells[count].vMargin = this.vMargin / 4;
         count++;
       }
     }
