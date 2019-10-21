@@ -28,7 +28,7 @@ import GameInfo from './GameInfo';
 import DPad from './components/DPad';
 import GameTitle from './GameTitle';
 
-import {PLAYER} from './components/Player';
+import {PLAYER, END} from './images';
 
 const maze = new MazeHelper();
 
@@ -87,12 +87,11 @@ class App extends Component {
 
   renderAgent = agent => {
     return (
-      <Rect
-        x={agent.topLeft().x}
-        y={agent.topLeft().y}
-        width={maze.cellSize}
-        height={maze.cellSize}
-        fill="rgb(0,0,255)"
+      <Image
+        x={agent.topLeft().x + 8}
+        y={agent.topLeft().y + 8}
+        preserveAspectRatio="xMidYMid slice"
+        href={PLAYER}
       />
     );
   };
@@ -108,12 +107,11 @@ class App extends Component {
 
   renderTarget = target => {
     return (
-      <Rect
-        x={target.topLeft().x}
-        y={target.topLeft().y}
-        width={maze.cellSize}
-        height={maze.cellSize}
-        fill="rgb(0,255,0)"
+      <Image
+        x={target.topLeft().x + 3}
+        y={target.topLeft().y + 3}
+        preserveAspectRatio="xMidYMid slice"
+        href={END}
       />
     );
   };
