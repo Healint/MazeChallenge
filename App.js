@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import Svg, {Circle, Line, Rect} from 'react-native-svg';
+import Svg, {Circle, Line, Rect, Image} from 'react-native-svg';
 import AxisPad from 'react-native-axis-pad';
 import {
   SafeAreaView,
@@ -19,16 +19,16 @@ import {
   Button,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from './assets/Colors';
+
 import MazeHelper from './src/Helper/MazeHelper';
 import Cell from './src/Helper/Cell';
 import {maximumDepthError} from 'react-native/Libraries/Utilities/ReactNativeTestTools';
+import GameInfo from './GameInfo';
+import DPad from './components/DPad';
+import GameTitle from './GameTitle';
+
+import {PLAYER, END} from './images';
 
 const maze = new MazeHelper();
 
@@ -40,7 +40,7 @@ class App extends Component {
         y1={cell.topLeft().y}
         x2={cell.topRight().x}
         y2={cell.topRight().y}
-        stroke="red"
+        stroke="white"
         strokeWidth="2"
       />
     ) : null;
@@ -53,7 +53,7 @@ class App extends Component {
         y1={cell.topLeft().y}
         x2={cell.bottomLeft().x}
         y2={cell.bottomLeft().y}
-        stroke="red"
+        stroke="white"
         strokeWidth="2"
       />
     ) : null;
@@ -66,7 +66,7 @@ class App extends Component {
         y1={cell.bottomLeft().y}
         x2={cell.bottomRight().x}
         y2={cell.bottomRight().y}
-        stroke="red"
+        stroke="white"
         strokeWidth="2"
       />
     ) : null;
@@ -79,7 +79,7 @@ class App extends Component {
         y1={cell.topRight().y}
         x2={cell.bottomRight().x}
         y2={cell.bottomRight().y}
-        stroke="red"
+        stroke="white"
         strokeWidth="2"
       />
     ) : null;
@@ -87,12 +87,11 @@ class App extends Component {
 
   renderAgent = agent => {
     return (
-      <Rect
-        x={agent.topLeft().x}
-        y={agent.topLeft().y}
-        width={maze.cellSize}
-        height={maze.cellSize}
-        fill="rgb(0,0,255)"
+      <Image
+        x={agent.topLeft().x + 8}
+        y={agent.topLeft().y + 8}
+        preserveAspectRatio="xMidYMid slice"
+        href={PLAYER}
       />
     );
   };
@@ -108,12 +107,11 @@ class App extends Component {
 
   renderTarget = target => {
     return (
-      <Rect
-        x={target.topLeft().x}
-        y={target.topLeft().y}
-        width={maze.cellSize}
-        height={maze.cellSize}
-        fill="rgb(0,255,0)"
+      <Image
+        x={target.topLeft().x + 3}
+        y={target.topLeft().y + 3}
+        preserveAspectRatio="xMidYMid slice"
+        href={END}
       />
     );
   };
@@ -163,47 +161,17 @@ class App extends Component {
       alert('Finish');
     }
     return (
-      <View>
+      <View style={styles.body}>
         <Svg height={maze.deviceHeight} width={maze.deviceWidth}>
+          <GameInfo />
           {maze.cells.map(cell => this.renderCell(cell))}
           {this.renderAgent(this.state ? this.state.cell : maze.cells[0])}
           {this.renderTarget(maze.target)}
+          <View style={styles.bottomBar}>
+            <GameTitle />
+            <DPad />
+          </View>
         </Svg>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: (maze.deviceWidth - 240) / 2,
-          }}>
-          <AxisPad
-            resetOnRelease={true}
-            autoCenter={true}
-            step={1 / 10}
-            size={240}
-            handlerSize={120}
-            handlerStyle={{color: 'red'}}
-            onValue={({x, y}) => {
-              // values are between -1 and 1
-              if (x !== this.x) {
-                if (x < 0) {
-                  this.onPressLeft();
-                } else if (x > 0) {
-                  this.onPressRight();
-                }
-              }
-              this.x = x;
-
-              if (y !== this.y) {
-                if (y < 0) {
-                  this.onPressTop();
-                } else if (y > 0) {
-                  this.onPressBottom();
-                }
-              }
-              this.y = y;
-            }}
-          />
-        </View>
       </View>
     );
   }
@@ -216,6 +184,22 @@ const styles = StyleSheet.create({
     width: '50',
     left: 0,
     bottom: 0,
+  },
+  maze: {
+    marginStart: 24,
+    marginEnd: 24,
+    height: 286,
+    backgroundColor: Colors.white,
+  },
+  bottomBar: {
+    top: maze.deviceHeight / 1.75,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  body: {
+    flexDirection: 'column',
+    backgroundColor: Colors.turquoise,
   },
 });
 
