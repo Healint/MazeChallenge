@@ -21,10 +21,10 @@ export default class MazeHelper {
     this.configCells();
     this.target = this.cells[this.cells.length - 1];
     this.target.target = true;
-    this.populateBoosters();
+    this.populateBoostersAndObstacles();
   }
 
-  populateBoosters() {
+  populateBoostersAndObstacles() {
     let caffeineIndex = this.generateRandomBoosterAt(1, 95, 0, 0);
     this.caffeine = this.cells[caffeineIndex];
     this.caffeine.booster = 'caffeine';
@@ -37,19 +37,37 @@ export default class MazeHelper {
     this.agedCheese = this.cells[agedCheeseIndex];
     this.agedCheese.booster = 'agedCheese';
 
-    // this.booster = this.cells[Math.floor(Math.random() * 99) + 1];
-    // if (!this.booster.booster.includes(this.booster)) {
-    //   this.booster.booster.push(this.booster);
-    // }
-    // this.booster = this.cells[Math.floor(Math.random() * 99) + 1];
-    // if (!this.booster.booster.includes(this.booster)) {
-    //   this.booster.booster.push(this.booster);
-    // }
+    let obs1Index = this.generateRandomBoosterAt(1, 95, caffeineIndex, chocolateIndex, agedCheeseIndex);
+    this.obs1 = this.cells[obs1Index];
+    this.obs1.person = 'anh';
+
+    let obs2Index = this.generateRandomBoosterAt(1, 95, caffeineIndex, chocolateIndex, agedCheeseIndex, obs1Index);
+    this.obs2 = this.cells[obs2Index];
+    this.obs2.person = 'yikun';
+
+    let obs3Index = this.generateRandomBoosterAt(1, 95, caffeineIndex, chocolateIndex, agedCheeseIndex, obs1Index, obs2Index);
+    this.obs3 = this.cells[obs3Index];
+    this.obs3.person = 'jenny';
+
+    let obs4Index = this.generateRandomBoosterAt(1, 95, caffeineIndex, chocolateIndex, agedCheeseIndex, obs1Index, obs2Index, obs3Index);
+    this.obs4 = this.cells[obs4Index];
+    this.obs4.person = 'nicolas';
+
+    let obs5Index = this.generateRandomBoosterAt(1, 95, caffeineIndex, chocolateIndex, agedCheeseIndex, obs1Index, obs2Index, obs3Index, obs4Index);
+    this.obs5 = this.cells[obs5Index];
+    this.obs5.person = 'zeeshan';
+
   }
 
-  generateRandomBoosterAt(min, max, exclude1, exclude2) {
+  generateRandomBoosterAt(min, max, exclude1, exclude2, exclude3, exclude4, exclude5, exclude6, exclude7) {
     let num = Math.floor(Math.random() * max) + min;
-    return num === exclude1 || num === exclude2
+    return num === exclude1 ||
+      num === exclude2 ||
+      num === exclude3 ||
+      num === exclude4 ||
+      num === exclude5 ||
+      num === exclude6 ||
+      num === exclude7
       ? this.generateRandomBoosterAt(min, max)
       : num;
   }

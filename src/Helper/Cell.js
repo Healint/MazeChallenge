@@ -17,6 +17,7 @@ export default class Cell {
   rightNeighbour;
   target = false;
   booster;
+  person;
 
   constructor(col, row) {
     this.col = col;

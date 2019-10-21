@@ -28,11 +28,15 @@ import GameInfo from './GameInfo';
 import DPad from './components/DPad';
 import GameTitle from './GameTitle';
 import Booster from './components/Booster';
+import Person from './components/Person';
 
 import {PLAYER, END, BTN_DOWN, BTN_UP, BTN_LEFT, BTN_RIGHT} from './images';
+import {REVERSE_DIRECTIONS} from './Effects';
 
 const maze = new MazeHelper();
 const booster = new Booster();
+const obstacle = new Person();
+// const popUp = new PopUp();
 
 class App extends Component {
   renderTopWall = cell => {
@@ -128,50 +132,115 @@ class App extends Component {
     );
   };
 
+  renderObstacle = obstacle => {
+    return (
+      <Person
+        x={obstacle.topLeft().x + 8}
+        y={obstacle.topLeft().y + 8}
+        size={maze.cellSize}
+        name={obstacle.person}
+      />
+    );
+  };
+
   state = {
     cell: maze.cells[0],
     caffeine: true,
     chocolate: true,
     agedCheese: true,
+    anh: true,
+    jenny: true,
+    nicolas: true,
+    zeeshan: true,
+    yikun: true,
+    person: null,
   };
 
   onPressLeft = () => {
-    if (this.state.cell.leftNeighbour) {
-      this.setState({
-        cell: this.state.cell.leftNeighbour,
-      });
+    if (this.state && this.state.person === 'anh') {
+      if (this.state.cell.rightNeighbour) {
+        this.setState({
+          cell: this.state.cell.rightNeighbour,
+        });
+      }
+    } else {
+      if (this.state.cell.leftNeighbour) {
+        this.setState({
+          cell: this.state.cell.leftNeighbour,
+        });
+      }
     }
   };
 
   onPressRight = () => {
-    if (this.state.cell.rightNeighbour) {
-      this.setState({
-        cell: this.state.cell.rightNeighbour,
-      });
+    if (this.state && this.state.person === 'anh') {
+      if (this.state.cell.leftNeighbour) {
+        this.setState({
+          cell: this.state.cell.leftNeighbour,
+        });
+      }
+    } else {
+      if (this.state.cell.rightNeighbour) {
+        this.setState({
+          cell: this.state.cell.rightNeighbour,
+        });
+      }
     }
   };
 
   onPressTop = () => {
-    if (this.state.cell.topNeighbour) {
-      this.setState({
-        cell: this.state.cell.topNeighbour,
-      });
+    if (this.state && this.state.person === 'anh') {
+      if (this.state.cell.bottomNeighbour) {
+        this.setState({
+          cell: this.state.cell.bottomNeighbour,
+        });
+      }
+    } else {
+      if (this.state.cell.topNeighbour) {
+        this.setState({
+          cell: this.state.cell.topNeighbour,
+        });
+      }
     }
   };
 
   onPressBottom = () => {
-    if (this.state.cell.bottomNeighbour) {
-      this.setState({
-        cell: this.state.cell.bottomNeighbour,
-      });
+    if (this.state && this.state.person === 'anh') {
+      if (this.state.cell.topNeighbour) {
+        this.setState({
+          cell: this.state.cell.topNeighbour,
+        });
+      }
+    } else {
+      if (this.state.cell.bottomNeighbour) {
+        this.setState({
+          cell: this.state.cell.bottomNeighbour,
+        });
+      }
     }
   };
 
   render() {
     if (this.state && this.state.cell.target) {
       alert('Finish');
+      this.setState({
+        cell: maze.cells[0],
+        caffeine: true,
+        chocolate: true,
+        agedCheese: true,
+        anh: true,
+        jenny: true,
+        nicolas: true,
+        zeeshan: true,
+        yikun: true,
+        person: null,
+      });
     }
-    if (this.state && this.state.caffeine && this.state.cell.booster === 'caffeine') {
+    if (
+      this.state &&
+      this.state.caffeine &&
+      this.state.cell.booster === 'caffeine'
+    ) {
       this.setState({
         caffeine: false,
       });
@@ -189,6 +258,43 @@ class App extends Component {
       });
       alert(booster.getPoints(this.state.cell.booster));
     }
+    if (this.state && this.state.anh && this.state.cell.person === 'anh') {
+      alert(this.state.cell.person);
+      this.setState({
+        person: 'anh',
+        anh: false,
+      });
+      // popUp.showPopup(this.state.cell.person);
+    }
+    if (this.state && this.state.yikun && this.state.cell.person === 'yikun') {
+      alert(this.state.cell.person);
+      this.setState({
+        person: 'yikun',
+        yikun: false,
+        cell: maze.cells[Math.floor(Math.random() * 99) + 1],
+      });
+    }
+    if (this.state && this.state.jenny && this.state.cell.person === 'jenny') {
+      alert(this.state.cell.person);
+      this.setState({
+        person: 'jenny',
+        jenny: false,
+      });
+    }
+    if (this.state && this.state.nicolas && this.state.cell.person === 'nicolas') {
+      alert(this.state.cell.person);
+      this.setState({
+        person: 'nicolas',
+        nicolas: false,
+      });
+    }
+    if (this.state && this.state.zeeshan && this.state.cell.person === 'zeeshan') {
+      alert(this.state.cell.person);
+      this.setState({
+        person: 'zeeshan',
+        zeeshan: false,
+      });
+    }
     return (
       <View style={styles.body}>
         <GameInfo />
@@ -199,6 +305,11 @@ class App extends Component {
           {this.renderBooster(maze.caffeine)}
           {this.renderBooster(maze.chocolate)}
           {this.renderBooster(maze.agedCheese)}
+          {this.renderObstacle(maze.obs1)}
+          {this.renderObstacle(maze.obs2)}
+          {this.renderObstacle(maze.obs3)}
+          {this.renderObstacle(maze.obs4)}
+          {this.renderObstacle(maze.obs5)}
         </Svg>
         <View style={styles.bottomBar} width={maze.deviceWidth}>
           <GameTitle />
