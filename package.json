@@ -10,8 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "matter-js": "^0.14.2",
     "react": "16.9.0",
-    "react-native": "0.61.2"
+    "react-joystick": "^1.0.3",
+    "react-native": "0.61.2",
+    "react-native-axis-pad": "^0.9.4",
+    "react-native-canvas": "^0.1.34",
+    "react-native-svg": "^9.11.1",
+    "react-native-webview": "^7.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
