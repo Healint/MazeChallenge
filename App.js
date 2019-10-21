@@ -24,7 +24,6 @@ import {Colors} from './assets/Colors';
 import MazeHelper from './src/Helper/MazeHelper';
 import Cell from './src/Helper/Cell';
 import {maximumDepthError} from 'react-native/Libraries/Utilities/ReactNativeTestTools';
-import GameInfo from './GameInfo';
 import DPad from './components/DPad';
 import GameTitle from './GameTitle';
 import Booster from './components/Booster';
@@ -39,6 +38,21 @@ const obstacle = new Person();
 // const popUp = new PopUp();
 
 class App extends Component {
+  state = {
+    cell: maze.cells[0],
+    caffeine: true,
+    chocolate: true,
+    agedCheese: true,
+    anh: true,
+    jenny: true,
+    nicolas: true,
+    zeeshan: true,
+    yikun: true,
+    person: null,
+    moves: 80,
+    points: 0,
+  };
+
   renderTopWall = cell => {
     return cell.topWall ? (
       <Line
@@ -135,25 +149,12 @@ class App extends Component {
   renderObstacle = obstacle => {
     return (
       <Person
-        x={obstacle.topLeft().x + 8}
-        y={obstacle.topLeft().y + 8}
+        x={obstacle.topLeft().x + 4}
+        y={obstacle.topLeft().y + 4}
         size={maze.cellSize}
         name={obstacle.person}
       />
     );
-  };
-
-  state = {
-    cell: maze.cells[0],
-    caffeine: true,
-    chocolate: true,
-    agedCheese: true,
-    anh: true,
-    jenny: true,
-    nicolas: true,
-    zeeshan: true,
-    yikun: true,
-    person: null,
   };
 
   onPressLeft = () => {
@@ -162,12 +163,14 @@ class App extends Component {
         this.setState({
           cell: this.state.cell.rightNeighbour,
         });
+        this.subtractMoves(1);
       }
     } else {
       if (this.state.cell.leftNeighbour) {
         this.setState({
           cell: this.state.cell.leftNeighbour,
         });
+        this.subtractMoves(1);
       }
     }
   };
@@ -178,12 +181,14 @@ class App extends Component {
         this.setState({
           cell: this.state.cell.leftNeighbour,
         });
+        this.subtractMoves(1);
       }
     } else {
       if (this.state.cell.rightNeighbour) {
         this.setState({
           cell: this.state.cell.rightNeighbour,
         });
+        this.subtractMoves(1);
       }
     }
   };
@@ -194,12 +199,14 @@ class App extends Component {
         this.setState({
           cell: this.state.cell.bottomNeighbour,
         });
+        this.subtractMoves(1);
       }
     } else {
       if (this.state.cell.topNeighbour) {
         this.setState({
           cell: this.state.cell.topNeighbour,
         });
+        this.subtractMoves(1);
       }
     }
   };
@@ -210,31 +217,50 @@ class App extends Component {
         this.setState({
           cell: this.state.cell.topNeighbour,
         });
+        this.subtractMoves(1);
       }
     } else {
       if (this.state.cell.bottomNeighbour) {
         this.setState({
           cell: this.state.cell.bottomNeighbour,
         });
+        this.subtractMoves(1);
       }
     }
   };
 
+  subtractMoves = num => {
+    if (this.state) {
+      this.setState({
+        moves: this.state.moves - num,
+      });
+    }
+  };
+
+  resetGame() {
+    alert('Finish');
+    this.setState({
+      cell: maze.cells[0],
+      caffeine: true,
+      chocolate: true,
+      agedCheese: true,
+      anh: true,
+      jenny: true,
+      nicolas: true,
+      zeeshan: true,
+      yikun: true,
+      person: null,
+      moves: 80,
+      points: 0,
+    });
+  }
+
   render() {
     if (this.state && this.state.cell.target) {
-      alert('Finish');
-      this.setState({
-        cell: maze.cells[0],
-        caffeine: true,
-        chocolate: true,
-        agedCheese: true,
-        anh: true,
-        jenny: true,
-        nicolas: true,
-        zeeshan: true,
-        yikun: true,
-        person: null,
-      });
+      this.resetGame();
+    }
+    if (this.state && this.state.moves === 0) {
+      this.resetGame();
     }
     if (
       this.state &&
@@ -244,19 +270,39 @@ class App extends Component {
       this.setState({
         caffeine: false,
       });
-      alert(booster.getPoints(this.state.cell.booster));
+      let pts = booster.getPoints(this.state.cell.booster);
+      alert(pts);
+      this.setState({
+        points: this.state.points + pts,
+      });
     }
-    if (this.state && this.state.chocolate && this.state.cell.booster === 'chocolate') {
+    if (
+      this.state &&
+      this.state.chocolate &&
+      this.state.cell.booster === 'chocolate'
+    ) {
       this.setState({
         chocolate: false,
       });
-      alert(booster.getPoints(this.state.cell.booster));
+      let pts = booster.getPoints(this.state.cell.booster);
+      alert(pts);
+      this.setState({
+        points: this.state.points + pts,
+      });
     }
-    if (this.state && this.state.agedCheese && this.state.cell.booster === 'agedCheese') {
+    if (
+      this.state &&
+      this.state.agedCheese &&
+      this.state.cell.booster === 'agedCheese'
+    ) {
       this.setState({
         agedCheese: false,
       });
-      alert(booster.getPoints(this.state.cell.booster));
+      let pts = booster.getPoints(this.state.cell.booster);
+      alert(pts);
+      this.setState({
+        points: this.state.points + pts,
+      });
     }
     if (this.state && this.state.anh && this.state.cell.person === 'anh') {
       alert(this.state.cell.person);
@@ -281,14 +327,22 @@ class App extends Component {
         jenny: false,
       });
     }
-    if (this.state && this.state.nicolas && this.state.cell.person === 'nicolas') {
+    if (
+      this.state &&
+      this.state.nicolas &&
+      this.state.cell.person === 'nicolas'
+    ) {
       alert(this.state.cell.person);
       this.setState({
         person: 'nicolas',
         nicolas: false,
       });
     }
-    if (this.state && this.state.zeeshan && this.state.cell.person === 'zeeshan') {
+    if (
+      this.state &&
+      this.state.zeeshan &&
+      this.state.cell.person === 'zeeshan'
+    ) {
       alert(this.state.cell.person);
       this.setState({
         person: 'zeeshan',
@@ -297,7 +351,14 @@ class App extends Component {
     }
     return (
       <View style={styles.body}>
-        <GameInfo />
+        <View style={{marginTop: 16}}>
+          <View style={styles.row}>
+            <Text style={styles.nameValue}>Moves left: {this.state.moves}</Text>
+            <Text style={styles.nameValue}>
+              Current points: {this.state.points}
+            </Text>
+          </View>
+        </View>
         <Svg height={maze.deviceHeight} width={maze.deviceWidth}>
           {maze.cells.map(cell => this.renderCell(cell))}
           {this.renderAgent(this.state ? this.state.cell : maze.cells[0])}
@@ -348,6 +409,17 @@ const styles = StyleSheet.create({
   body: {
     flexDirection: 'column',
     backgroundColor: Colors.turquoise,
+  },
+  row: {
+    marginStart: 24,
+    marginEnd: 24,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  nameValue: {
+    fontFamily: 'Asap-Regular',
+    fontSize: 16,
+    color: Colors.white,
   },
 });
 

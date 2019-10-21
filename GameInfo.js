@@ -8,11 +8,7 @@ export default class GameInfo extends Component {
       <View style={{marginTop: 16}}>
         <View style={styles.row}>
           <Text style={styles.nameValue}>Moves left: 12</Text>
-          <Text style={styles.buttonText}>Reset game</Text>
-        </View>
-        <View style={styles.row}>
           <Text style={styles.nameValue}>Current points: 10</Text>
-          <Text style={styles.nameValue}>Highest points: 26</Text>
         </View>
       </View>
     );
@@ -30,10 +26,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Asap-Regular',
     fontSize: 16,
     color: Colors.white,
-  },
-  buttonText: {
-    fontFamily: 'Asap-BoldItalic',
-    fontSize: 16,
-    color: Colors.dark_yellow,
   },
 });

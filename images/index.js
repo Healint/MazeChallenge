@@ -8,7 +8,7 @@ export const BTN_UP = require('./btn_up.png');
 export const BTN_LEFT = require('./btn_left.png');
 export const BTN_RIGHT = require('./btn_right.png');
 
-export const AGED_CHEESE = require('./ic_aged_cheese_normal.png');
+export const AGED_CHEESE = require('./ic_aged_cheese.png');
 export const CAFFEINE = require('./ic_caffeine.png');
 export const CHOCOLATE = require('./ic_chocolate.png');
 

@@ -35,19 +35,22 @@ export default class DPad extends Component {
     return (
       <View style={{alignItems: 'center'}}>
         <TouchableOpacity onPress={this.onPressTop}>
-          <Image source={BTN_UP} style={{width: 48, height: 24}} />
+          <Image
+            source={BTN_UP}
+            style={{width: 56, height: 28, marginBottom: 4}}
+          />
         </TouchableOpacity>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginBottom: 4}}>
           <TouchableOpacity onPress={this.onPressLeft}>
-            <Image source={BTN_LEFT} style={{width: 24, height: 48}} />
+            <Image source={BTN_LEFT} style={{width: 28, height: 56}} />
           </TouchableOpacity>
-          <View style={{width: 48, height: 24}} />
+          <View style={{width: 64, height: 28}} />
           <TouchableOpacity onPress={this.onPressRight}>
-            <Image source={BTN_RIGHT} style={{width: 24, height: 48}} />
+            <Image source={BTN_RIGHT} style={{width: 24, height: 56}} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={this.onPressBottom}>
-          <Image source={BTN_DOWN} style={{width: 48, height: 24}} />
+          <Image source={BTN_DOWN} style={{width: 56, height: 28}} />
         </TouchableOpacity>
       </View>
     );
