@@ -1,45 +1,47 @@
 import React, {Component} from 'react';
-import {View, Image} from 'react-native';
+import {View} from 'react-native';
 
-import {CHOCOLATE, CAFFEINE, AGED_CHEESE} from '../images';
+import {CHOCOLATE, CAFFEINE, AGED_CHEESE, PLAYER} from '../images';
+import Svg, {Image} from 'react-native-svg';
 
-const Booster = ({x, y, name}) => {
-  const image = getImage(name);
-  const points = getPoints(name);
-
-  return (
-    <View>
-      <Image
-        source={getImage(name)}
-        style={{
-          position: 'absolute',
-          left: x,
-          top: y,
-        }}
-      />
-    </View>
-  );
-};
-
-function getImage(name) {
-  switch (name) {
-    case 'caffeine':
-      return CAFFEINE;
-    case 'chocolate':
-      return CHOCOLATE;
-    case 'agedCheese':
-      return AGED_CHEESE;
+class Booster extends Component {
+  constructor(props) {
+    super(props);
   }
-}
 
-function getPoints(name) {
-  switch (name) {
-    case 'caffeine':
-      return 5;
-    case 'chocolate':
-      return 3;
-    case 'agedCheese':
-      return 1;
+  getPoints(name) {
+    switch (name) {
+      case 'caffeine':
+        return 5;
+      case 'chocolate':
+        return 3;
+      case 'agedCheese':
+        return 1;
+    }
+  }
+
+  getImage(name) {
+    switch (name) {
+      case 'caffeine':
+        return CAFFEINE;
+      case 'chocolate':
+        return CHOCOLATE;
+      case 'agedCheese':
+        return AGED_CHEESE;
+    }
+  }
+
+  render() {
+    return (
+      <View>
+        <Image
+          href={this.getImage(this.props.name)}
+          x={this.props.x}
+          y={this.props.y}
+          preserveAspectRatio="xMidYMid slice"
+        />
+      </View>
+    );
   }
 }
 

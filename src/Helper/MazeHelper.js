@@ -2,6 +2,7 @@ import React from 'react';
 import {Dimensions} from 'react-native';
 import Cell from './Cell';
 import MazeGenerator from './MazeGenerator';
+import Booster from '../../components/Booster';
 
 export default class MazeHelper {
   rows = 10;
@@ -20,6 +21,37 @@ export default class MazeHelper {
     this.configCells();
     this.target = this.cells[this.cells.length - 1];
     this.target.target = true;
+    this.populateBoosters();
+  }
+
+  populateBoosters() {
+    let caffeineIndex = this.generateRandomBoosterAt(1, 95, 0, 0);
+    this.caffeine = this.cells[caffeineIndex];
+    this.caffeine.booster = 'caffeine';
+
+    let chocolateIndex = this.generateRandomBoosterAt(1, 95, caffeineIndex, 0);
+    this.chocolate = this.cells[chocolateIndex];
+    this.chocolate.booster = 'chocolate';
+
+    let agedCheeseIndex = this.generateRandomBoosterAt(1, 95, caffeineIndex, chocolateIndex);
+    this.agedCheese = this.cells[agedCheeseIndex];
+    this.agedCheese.booster = 'agedCheese';
+
+    // this.booster = this.cells[Math.floor(Math.random() * 99) + 1];
+    // if (!this.booster.booster.includes(this.booster)) {
+    //   this.booster.booster.push(this.booster);
+    // }
+    // this.booster = this.cells[Math.floor(Math.random() * 99) + 1];
+    // if (!this.booster.booster.includes(this.booster)) {
+    //   this.booster.booster.push(this.booster);
+    // }
+  }
+
+  generateRandomBoosterAt(min, max, exclude1, exclude2) {
+    let num = Math.floor(Math.random() * max) + min;
+    return num === exclude1 || num === exclude2
+      ? this.generateRandomBoosterAt(min, max)
+      : num;
   }
 
   create2DArray() {

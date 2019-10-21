@@ -27,10 +27,12 @@ import {maximumDepthError} from 'react-native/Libraries/Utilities/ReactNativeTes
 import GameInfo from './GameInfo';
 import DPad from './components/DPad';
 import GameTitle from './GameTitle';
+import Booster from './components/Booster';
 
 import {PLAYER, END, BTN_DOWN, BTN_UP, BTN_LEFT, BTN_RIGHT} from './images';
 
 const maze = new MazeHelper();
+const booster = new Booster();
 
 class App extends Component {
   renderTopWall = cell => {
@@ -116,12 +118,21 @@ class App extends Component {
     );
   };
 
+  renderBooster = booster => {
+    return (
+      <Booster
+        x={booster.topLeft().x + 8}
+        y={booster.topLeft().y + 8}
+        name={booster.booster}
+      />
+    );
+  };
+
   state = {
     cell: maze.cells[0],
-    rightIndex: 1,
-    topIndex: 0,
-    leftIndex: 0,
-    bottomIndex: maze.cols,
+    caffeine: true,
+    chocolate: true,
+    agedCheese: true,
   };
 
   onPressLeft = () => {
@@ -130,7 +141,7 @@ class App extends Component {
         cell: this.state.cell.leftNeighbour,
       });
     }
-  }
+  };
 
   onPressRight = () => {
     if (this.state.cell.rightNeighbour) {
@@ -138,7 +149,7 @@ class App extends Component {
         cell: this.state.cell.rightNeighbour,
       });
     }
-  }
+  };
 
   onPressTop = () => {
     if (this.state.cell.topNeighbour) {
@@ -146,7 +157,7 @@ class App extends Component {
         cell: this.state.cell.topNeighbour,
       });
     }
-  }
+  };
 
   onPressBottom = () => {
     if (this.state.cell.bottomNeighbour) {
@@ -154,11 +165,29 @@ class App extends Component {
         cell: this.state.cell.bottomNeighbour,
       });
     }
-  }
+  };
 
   render() {
     if (this.state && this.state.cell.target) {
       alert('Finish');
+    }
+    if (this.state && this.state.caffeine && this.state.cell.booster === 'caffeine') {
+      this.setState({
+        caffeine: false,
+      });
+      alert(booster.getPoints(this.state.cell.booster));
+    }
+    if (this.state && this.state.chocolate && this.state.cell.booster === 'chocolate') {
+      this.setState({
+        chocolate: false,
+      });
+      alert(booster.getPoints(this.state.cell.booster));
+    }
+    if (this.state && this.state.agedCheese && this.state.cell.booster === 'agedCheese') {
+      this.setState({
+        agedCheese: false,
+      });
+      alert(booster.getPoints(this.state.cell.booster));
     }
     return (
       <View style={styles.body}>
@@ -167,6 +196,9 @@ class App extends Component {
           {maze.cells.map(cell => this.renderCell(cell))}
           {this.renderAgent(this.state ? this.state.cell : maze.cells[0])}
           {this.renderTarget(maze.target)}
+          {this.renderBooster(maze.caffeine)}
+          {this.renderBooster(maze.chocolate)}
+          {this.renderBooster(maze.agedCheese)}
         </Svg>
         <View style={styles.bottomBar} width={maze.deviceWidth}>
           <GameTitle />

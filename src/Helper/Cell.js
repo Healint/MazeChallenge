@@ -1,4 +1,5 @@
 import React from 'react';
+import Booster from '../../components/Booster';
 
 export default class Cell {
   topWall = true;
@@ -15,6 +16,7 @@ export default class Cell {
   leftNeighbour;
   rightNeighbour;
   target = false;
+  booster;
 
   constructor(col, row) {
     this.col = col;
