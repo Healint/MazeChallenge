@@ -7,6 +7,7 @@ import {
   Alert,
   StyleSheet,
   Image,
+  Dimensions,
 } from 'react-native';
 import {Colors} from './assets/Colors';
 import {
@@ -111,17 +112,17 @@ class Popup extends Component {
           animationType="fade"
           transparent={true}
           visible={this.props.modalVisible}>
-          <View style={styles.popup}>
-            <TouchableHighlight onPress={this.closePopup}>
-              <Text style={styles.close}>Close</Text>
-            </TouchableHighlight>
-            <Image source={this.getIcon(this.props.modalName)} />
+          <View style={styles.popup} height={Dimensions.get('window').height / 1.8} width={Dimensions.get('window').width / 1.20}>
+            <Image source={this.getIcon(this.props.modalName)} style={styles.icon} />
             <Text style={styles.title}>
               {this.getTitle(this.props.modalName)}
             </Text>
             <Text style={styles.description}>
               {this.getDesc(this.props.modalName)}
             </Text>
+            <TouchableHighlight onPress={this.closePopup}>
+              <Text style={styles.close}>Close</Text>
+            </TouchableHighlight>
           </View>
         </Modal>
       );
@@ -139,11 +140,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     position: 'absolute',
     marginTop: 120,
-    width: 300,
-    height: 500,
+    borderRadius: 8,
     backgroundColor: Colors.grey,
   },
   icon: {
+    marginTop: 32,
     width: 136,
     height: 136,
   },
@@ -152,20 +153,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Asap-BoldItalic',
     fontSize: 32,
     color: Colors.dark_blue,
+    textAlign: 'center',
   },
   description: {
     marginBottom: 16,
-    fontFamily: 'Asap-BoldItalic',
-    fontSize: 16,
+    marginTop: 16,
+    textAlign: 'center',
+    fontFamily: 'Asap-Regular',
+    fontSize: 20,
     color: Colors.dark_blue,
   },
   close: {
-    left: 0,
-    alignSelf: 'flex-end',
-    marginTop: 16,
-    marginEnd: 16,
     fontFamily: 'Asap-Bold',
-    fontSize: 16,
+    fontSize: 24,
     color: Colors.turquoise,
   },
 });
