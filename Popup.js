@@ -26,113 +26,108 @@ import {
 class Popup extends Component {
   constructor(props) {
     super(props);
-    this.setStates();
   }
 
-  state = {
-    modalVisible: false,
-    icon: null,
-    title: '',
-    description: '',
-  };
-
-  setStates() {
-    this.setState({modalVisible: true});
-    switch (this.props.modalName) {
-      case 'zeeshan':
-        this.setState({
-          icon: POPUP_ZEESHAN,
-          title: 'Zeeshan says...',
-          description: 'Your PR (Pass Request) is declined. Game over.',
-        });
-        break;
-      case 'jenny':
-        this.setState({
-          icon: POPUP_JENNY,
-          title: 'Jenny says...',
-          description: 'Here is Your Pass of the Day!',
-        });
-        break;
-      case 'anh':
-        this.setState({
-          icon: POPUP_ANH,
-          title: 'Anh says...',
-          description:
-            'Let me set you a new policy. Your controls are reversed.',
-        });
-        break;
-      case 'nicolas':
-        this.setState({
-          icon: POPUP_NICOLAS,
-          title: 'Nicolas says...',
-          description: 'Hello, my dear friend and valued colleague!',
-        });
-        break;
-      case 'yikun':
-        this.setState({
-          icon: POPUP_YIKUN,
-          title: 'Yikun says...',
-          description:
-            'Please walk a clean path. Let me bring you somewhere you can start afresh.',
-        });
-        break;
-      case 'gameover':
-        this.setState({
-          icon: POPUP_GAMEOVER,
-          title: 'Game over!.',
-          description: 'Better luck next time!',
-        });
-        break;
-      case 'winner':
-        this.setState({
-          icon: POPUP_WINNER,
-          title: 'Great job!',
-          description: 'You made it!',
-        });
-        break;
-      case 'aged_cheese':
-        this.setState({
-          icon: POPUP_AGED_CHEESE,
-          title: 'You picked up aged cheese!',
-          description: 'You get 1 point!.',
-        });
-        break;
-      case 'chocolate':
-        this.setState({
-          icon: POPUP_CHOCOLATE,
-          title: 'You picked up chocolate!',
-          description: 'Your get 3 points!',
-        });
-        break;
-      case 'caffeine':
-        this.setState({
-          icon: POPUP_CAFFEINE,
-          title: 'You picked up caffeine!',
-          description: 'You get 5 points!',
-        });
-        break;
+  getIcon() {
+    if (this.props && this.props.modalName === 'zeeshan') {
+      return POPUP_ZEESHAN;
+    } else if (this.props && this.props.modalName === 'jenny') {
+      return POPUP_JENNY;
+    } else if (this.props && this.props.modalName === 'anh') {
+      return POPUP_ANH;
+    } else if (this.props && this.props.modalName === 'nicolas') {
+      return POPUP_NICOLAS;
+    } else if (this.props && this.props.modalName === 'yikun') {
+      return POPUP_YIKUN;
+    } else if (this.props && this.props.modalName === 'gameover') {
+      return POPUP_GAMEOVER;
+    } else if (this.props && this.props.modalName === 'winner') {
+      return POPUP_WINNER;
+    } else if (this.props && this.props.modalName === 'aged_cheese') {
+      return POPUP_AGED_CHEESE;
+    } else if (this.props && this.props.modalName === 'chocolate') {
+      return POPUP_CHOCOLATE;
+    } else if (this.props && this.props.modalName === 'caffeine') {
+      return POPUP_CAFFEINE;
     }
+  }
+
+  getDesc() {
+    if (this.props && this.props.modalName === 'zeeshan') {
+      return 'Your PR (Pass Request) is declined. Game over.';
+    } else if (this.props && this.props.modalName === 'jenny') {
+      return 'Here is Your Pass of the Day!';
+    } else if (this.props && this.props.modalName === 'anh') {
+      return 'Let me set you a new policy. Your controls are reversed.';
+    } else if (this.props && this.props.modalName === 'nicolas') {
+      return 'Hello, my dear friend and valued colleague!';
+    } else if (this.props && this.props.modalName === 'yikun') {
+      return 'Please walk a clean path. Let me bring you somewhere you can start afresh.';
+    } else if (this.props && this.props.modalName === 'gameover') {
+      return 'Better luck next time!';
+    } else if (this.props && this.props.modalName === 'winner') {
+      return 'You made it!';
+    } else if (this.props && this.props.modalName === 'aged_cheese') {
+      return 'You get 1 point!.';
+    } else if (this.props && this.props.modalName === 'chocolate') {
+      return 'Your get 3 points!';
+    } else if (this.props && this.props.modalName === 'caffeine') {
+      return 'Your get 5 points!';
+    }
+  }
+
+  getTitle() {
+    if (this.props && this.props.modalName === 'zeeshan') {
+      return 'Zeeshan says...';
+    } else if (this.props && this.props.modalName === 'jenny') {
+      return 'Jenny says...';
+    } else if (this.props && this.props.modalName === 'anh') {
+      return 'Anh says...';
+    } else if (this.props && this.props.modalName === 'nicolas') {
+      return 'Nicolas says...';
+    } else if (this.props && this.props.modalName === 'yikun') {
+      return 'Yikun says...';
+    } else if (this.props && this.props.modalName === 'gameover') {
+      return 'Game Over!';
+    } else if (this.props && this.props.modalName === 'winner') {
+      return 'You made it!';
+    } else if (this.props && this.props.modalName === 'aged_cheese') {
+      return 'You picked up aged cheese!';
+    } else if (this.props && this.props.modalName === 'chocolate') {
+      return 'You picked up chocolate!';
+    } else if (this.props && this.props.modalName === 'caffeine') {
+      return 'You picked up caffeine!';
+    }
+  }
+
+  closePopup = () => {
+    this.props.closePopup?.();
   };
 
   render() {
-    return (
-      <Modal
-        animationType="fade"
-        transparent={false}
-        visible={this.state.modalVisible}>
-        <View style={styles.popup}>
-          <TouchableHighlight
-            onPress={() => {
-              this.setState({modalVisible: false});
-            }}>
-            <Text style={styles.close}>Close</Text>
-          </TouchableHighlight>
-          <Image source={this.state.icon} />
-          <Text style={styles.title}>{this.state.title}</Text>
-          <Text style={styles.description}>{this.state.description}</Text>
-        </View>
-      </Modal>
-    );
+    if (this.props && this.props.modalVisible) {
+      return (
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.props.modalVisible}>
+          <View style={styles.popup}>
+            <TouchableHighlight onPress={this.closePopup}>
+              <Text style={styles.close}>Close</Text>
+            </TouchableHighlight>
+            <Image source={this.getIcon(this.props.modalName)} />
+            <Text style={styles.title}>
+              {this.getTitle(this.props.modalName)}
+            </Text>
+            <Text style={styles.description}>
+              {this.getDesc(this.props.modalName)}
+            </Text>
+          </View>
+        </Modal>
+      );
+    } else {
+      return <View />;
+    }
   }
 }
 export default Popup;

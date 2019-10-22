@@ -25,7 +25,7 @@ import {PLAYER, END, BTN_DOWN, BTN_UP, BTN_LEFT, BTN_RIGHT} from './images';
 const maze = new MazeHelper();
 const booster = new Booster();
 const obstacle = new Person();
-const popup = new Popup();
+// const popup = new Popup();
 
 class App extends Component {
   state = {
@@ -149,6 +149,13 @@ class App extends Component {
     );
   };
 
+  setPopupState = name => {
+    this.setState({
+      modalVisible: true,
+      modalName: name,
+    });
+  };
+
   onPressLeft = () => {
     if (this.state && this.state.person === 'anh') {
       if (this.state.cell.rightNeighbour) {
@@ -221,6 +228,12 @@ class App extends Component {
     }
   };
 
+  closePopup = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
   subtractMoves = num => {
     if (this.state) {
       this.setState({
@@ -246,23 +259,13 @@ class App extends Component {
     });
   }
 
-  renderPopup = name => {
-    /*if (this.state) {
-      this.setState({
-        modalVisible: true,
-        modalName: name,
-      });
-    }*/
-    return <Popup modalName={name} modalVisible={true} />;
-  };
-
   render() {
     if (this.state && this.state.cell.target) {
-      this.renderPopup('winner');
+      this.setPopupState('winner');
       this.resetGame();
     }
     if (this.state && this.state.moves === 0) {
-      this.renderPopup('gameover');
+      this.setPopupState('gameover');
       this.resetGame();
     }
     if (
@@ -274,7 +277,7 @@ class App extends Component {
         caffeine: false,
       });
       let pts = booster.getPoints(this.state.cell.booster);
-      this.renderPopup('caffeine');
+      this.setPopupState('caffeine');
       this.setState({
         points: this.state.points + pts,
       });
@@ -288,7 +291,7 @@ class App extends Component {
         chocolate: false,
       });
       let pts = booster.getPoints(this.state.cell.booster);
-      this.renderPopup('chocolate');
+      this.setPopupState('chocolate');
       this.setState({
         points: this.state.points + pts,
       });
@@ -302,20 +305,20 @@ class App extends Component {
         agedCheese: false,
       });
       let pts = booster.getPoints(this.state.cell.booster);
-      this.renderPopup('aged_cheese');
+      this.setPopupState('aged_cheese');
       this.setState({
         points: this.state.points + pts,
       });
     }
     if (this.state && this.state.anh && this.state.cell.person === 'anh') {
-      this.renderPopup('anh');
+      this.setPopupState('anh');
       this.setState({
         person: 'anh',
         anh: false,
       });
     }
     if (this.state && this.state.yikun && this.state.cell.person === 'yikun') {
-      this.renderPopup('yikun');
+      this.setPopupState('yikun');
       this.setState({
         person: 'yikun',
         yikun: false,
@@ -323,7 +326,7 @@ class App extends Component {
       });
     }
     if (this.state && this.state.jenny && this.state.cell.person === 'jenny') {
-      this.renderPopup('jenny');
+      this.setPopupState('jenny');
       this.setState({
         person: 'jenny',
         jenny: false,
@@ -334,7 +337,7 @@ class App extends Component {
       this.state.nicolas &&
       this.state.cell.person === 'nicolas'
     ) {
-      this.renderPopup('nicolas');
+      this.setPopupState('nicolas');
       this.setState({
         person: 'nicolas',
         nicolas: false,
@@ -345,15 +348,21 @@ class App extends Component {
       this.state.zeeshan &&
       this.state.cell.person === 'zeeshan'
     ) {
-      this.renderPopup('zeeshan');
+      this.setPopupState('zeeshan');
       this.setState({
         person: 'zeeshan',
         zeeshan: false,
       });
       this.resetGame();
     }
+
     return (
       <View style={styles.body}>
+        <Popup
+          modalName={this.state.modalName}
+          modalVisible={this.state.modalVisible}
+          closePopup={this.closePopup}
+        />
         <View style={{marginTop: 16}}>
           <View style={styles.row}>
             <Text style={styles.nameValue}>Moves left: {this.state.moves}</Text>
