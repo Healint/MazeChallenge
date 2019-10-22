@@ -3,11 +3,11 @@ import {View} from 'react-native';
 import Svg, {Image} from 'react-native-svg';
 
 import {
-  PERSON_ANH,
-  PERSON_JENNY,
-  PERSON_NICOLAS,
-  PERSON_YIKUN,
-  PERSON_ZEESHAN,
+  IC_ANH,
+  IC_JENNY,
+  IC_NICOLAS,
+  IC_YIKUN,
+  IC_ZEESHAN,
 } from '../images';
 
 export default class Person extends Component {
@@ -18,15 +18,15 @@ export default class Person extends Component {
   getImage(name) {
     switch (name) {
       case 'zeeshan':
-        return PERSON_ZEESHAN;
+        return IC_ZEESHAN;
       case 'nicolas':
-        return PERSON_NICOLAS;
+        return IC_NICOLAS;
       case 'jenny':
-        return PERSON_JENNY;
+        return IC_JENNY;
       case 'yikun':
-        return PERSON_YIKUN;
+        return IC_YIKUN;
       case 'anh':
-        return PERSON_ANH;
+        return IC_ANH;
     }
   }
 

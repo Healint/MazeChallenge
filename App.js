@@ -8,34 +8,24 @@
 
 import React, {Component} from 'react';
 import Svg, {Circle, Line, Rect, Image} from 'react-native-svg';
-import AxisPad from 'react-native-axis-pad';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Button,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 import {Colors} from './assets/Colors';
 
 import MazeHelper from './src/Helper/MazeHelper';
 import Cell from './src/Helper/Cell';
-import {maximumDepthError} from 'react-native/Libraries/Utilities/ReactNativeTestTools';
 import DPad from './components/DPad';
 import GameTitle from './GameTitle';
 import Booster from './components/Booster';
 import Person from './components/Person';
+import Popup from './Popup';
 
 import {PLAYER, END, BTN_DOWN, BTN_UP, BTN_LEFT, BTN_RIGHT} from './images';
-import {REVERSE_DIRECTIONS} from './Effects';
 
 const maze = new MazeHelper();
 const booster = new Booster();
 const obstacle = new Person();
-// const popUp = new PopUp();
+const popup = new Popup();
 
 class App extends Component {
   state = {
@@ -51,6 +41,8 @@ class App extends Component {
     person: null,
     moves: 80,
     points: 0,
+    modalVisible: false,
+    modalName: null,
   };
 
   renderTopWall = cell => {
@@ -238,7 +230,6 @@ class App extends Component {
   };
 
   resetGame() {
-    alert('Finish');
     this.setState({
       cell: maze.cells[0],
       caffeine: true,
@@ -255,11 +246,23 @@ class App extends Component {
     });
   }
 
+  renderPopup = name => {
+    /*if (this.state) {
+      this.setState({
+        modalVisible: true,
+        modalName: name,
+      });
+    }*/
+    return <Popup modalName={name} modalVisible={true} />;
+  };
+
   render() {
     if (this.state && this.state.cell.target) {
+      this.renderPopup('winner');
       this.resetGame();
     }
     if (this.state && this.state.moves === 0) {
+      this.renderPopup('gameover');
       this.resetGame();
     }
     if (
@@ -271,7 +274,7 @@ class App extends Component {
         caffeine: false,
       });
       let pts = booster.getPoints(this.state.cell.booster);
-      alert(pts);
+      this.renderPopup('caffeine');
       this.setState({
         points: this.state.points + pts,
       });
@@ -285,7 +288,7 @@ class App extends Component {
         chocolate: false,
       });
       let pts = booster.getPoints(this.state.cell.booster);
-      alert(pts);
+      this.renderPopup('chocolate');
       this.setState({
         points: this.state.points + pts,
       });
@@ -299,21 +302,20 @@ class App extends Component {
         agedCheese: false,
       });
       let pts = booster.getPoints(this.state.cell.booster);
-      alert(pts);
+      this.renderPopup('aged_cheese');
       this.setState({
         points: this.state.points + pts,
       });
     }
     if (this.state && this.state.anh && this.state.cell.person === 'anh') {
-      alert(this.state.cell.person);
+      this.renderPopup('anh');
       this.setState({
         person: 'anh',
         anh: false,
       });
-      // popUp.showPopup(this.state.cell.person);
     }
     if (this.state && this.state.yikun && this.state.cell.person === 'yikun') {
-      alert(this.state.cell.person);
+      this.renderPopup('yikun');
       this.setState({
         person: 'yikun',
         yikun: false,
@@ -321,7 +323,7 @@ class App extends Component {
       });
     }
     if (this.state && this.state.jenny && this.state.cell.person === 'jenny') {
-      alert(this.state.cell.person);
+      this.renderPopup('jenny');
       this.setState({
         person: 'jenny',
         jenny: false,
@@ -332,7 +334,7 @@ class App extends Component {
       this.state.nicolas &&
       this.state.cell.person === 'nicolas'
     ) {
-      alert(this.state.cell.person);
+      this.renderPopup('nicolas');
       this.setState({
         person: 'nicolas',
         nicolas: false,
@@ -343,11 +345,12 @@ class App extends Component {
       this.state.zeeshan &&
       this.state.cell.person === 'zeeshan'
     ) {
-      alert(this.state.cell.person);
+      this.renderPopup('zeeshan');
       this.setState({
         person: 'zeeshan',
         zeeshan: false,
       });
+      this.resetGame();
     }
     return (
       <View style={styles.body}>

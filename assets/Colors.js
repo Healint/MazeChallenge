@@ -8,4 +8,5 @@ export const Colors = {
   dark_yellow: '#DED020',
   dark_blue: '#43798C',
   turquoise: '#04AEBA',
+  grey: '#D1D5D7',
 };
